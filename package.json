@@ -1,0 +1,12 @@
+{
+  "name": "ncb-chemical-tracking",
+  "version": "1.0.0",
+  "description": "NCB Chemical Tracking System",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch data.json --port 3000"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}

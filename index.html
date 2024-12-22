@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NCB Chemical Tracking System - India</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --saffron: #ff9933;
+        --white: #ffffff;
+        --green: #138808;
+        --blue: #000080;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.9)
+          ),
+          url("https://www.nationsonline.org/maps/India-political-map.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      .navbar {
+        background: linear-gradient(
+          135deg,
+          var(--saffron),
+          var(--white),
+          var(--green)
+        );
+      }
+
+      .navbar-brand {
+        color: var(--blue) !important;
+        font-weight: bold;
+      }
+
+      .hero-section {
+        padding: 100px 0;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+        margin: 50px 0;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero-title {
+        color: var(--blue);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .login-cards {
+        margin: 50px 0;
+      }
+
+      .login-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        border-top: 5px solid;
+        margin-bottom: 20px;
+      }
+
+      .login-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .login-card.ncb {
+        border-color: var(--saffron);
+      }
+
+      .login-card.company {
+        border-color: var(--white);
+        border-top: 5px solid #ccc;
+      }
+
+      .login-card.zonal {
+        border-color: var(--green);
+      }
+
+      .login-card i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: var(--blue);
+      }
+
+      .btn-custom {
+        background: var(--blue);
+        color: white;
+        padding: 10px 30px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        background: #000066;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .features {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 50px 0;
+        border-radius: 15px;
+        margin-bottom: 50px;
+      }
+
+      .feature-item {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .feature-item i {
+        font-size: 2.5rem;
+        color: var(--blue);
+        margin-bottom: 15px;
+      }
+
+      .footer {
+        background: linear-gradient(
+          135deg,
+          var(--saffron),
+          var(--white),
+          var(--green)
+        );
+        color: var(--blue);
+        padding: 30px 0;
+        margin-top: 50px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer p {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .ashoka-chakra {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        animation: spin 10s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png"
+            height="40"
+            class="d-inline-block align-top me-2"
+            alt="Indian Emblem"
+          />
+          <img
+            src="/ncb.png"
+            height="40"
+            class="d-inline-block align-top me-2"
+            alt="NCB Logo"
+          />
+          NCB Precursor Chemical Tracking System
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="hero-section">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Ashoka_Chakra.svg/1200px-Ashoka_Chakra.svg.png"
+          alt="Ashoka Chakra"
+          class="ashoka-chakra"
+        />
+        <h1 class="hero-title">
+          Welcome to NCB Precursor Chemical Tracking System
+        </h1>
+        <p class="lead">
+          A secure and efficient platform for monitoring precursor chemicals
+          across India
+        </p>
+      </div>
+
+      <div class="row login-cards">
+        <div class="col-md-4">
+          <div class="login-card ncb">
+            <i class="fas fa-user-shield"></i>
+            <h3>NCB Admin</h3>
+            <p>
+              Central administration and monitoring of precursor chemical
+              tracking
+            </p>
+            <a href="admin-login.html" class="btn btn-custom">Admin Login</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="login-card company">
+            <i class="fas fa-industry"></i>
+            <h3>Company Portal</h3>
+            <p>Manage chemical manufacturing, sales, and transportation</p>
+            <a href="company-login.html" class="btn btn-custom"
+              >Company Login</a
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="login-card zonal">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>Zonal Officer</h3>
+            <p>Monitor and manage regional chemical movement</p>
+            <a href="zonal-login.html" class="btn btn-custom">Officer Login</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Secure Tracking</h4>
+                <p>End-to-end encrypted monitoring system</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="feature-item">
+                <i class="fas fa-chart-line"></i>
+                <h4>Real-time Analytics</h4>
+                <p>Instant updates and monitoring</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="feature-item">
+                <i class="fas fa-bell"></i>
+                <h4>Alert System</h4>
+                <p>Immediate notification for any irregularities</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="feature-item">
+                <i class="fas fa-file-alt"></i>
+                <h4>Compliance</h4>
+                <p>Adherence to national regulations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer text-center">
+      <div class="container">
+        <p class="mb-0">
+          2024 Narcotics Control Bureau, Government of India. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Function to open MetaMask
+      async function openMetaMask() {
+        if (typeof window.ethereum !== "undefined") {
+          try {
+            // Request account access
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            console.log("MetaMask is connected");
+          } catch (error) {
+            console.error(
+              "User denied account access or an error occurred",
+              error
+            );
+          }
+        } else {
+          console.log("MetaMask is not installed.");
+        }
+      }
+
+      // Automatically trigger MetaMask connection when the page loads
+      window.onload = function () {
+        openMetaMask();
+      };
+    </script>
+  </body>
+</html>

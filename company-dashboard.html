@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      .dashboard-container {
+        padding: 20px;
+      }
+      .stats-card {
+        transition: transform 0.2s;
+        cursor: pointer;
+      }
+      .stats-card:hover {
+        transform: translateY(-5px);
+      }
+      .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+      }
+      .sales-orders-card {
+        border: 2px solid #0d6efd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .sales-orders-card .card-header {
+        background-color: #0d6efd;
+        color: white;
+        padding: 1rem;
+      }
+      .sales-orders-card .btn-group .btn {
+        border: 1px solid white;
+        margin: 0 2px;
+      }
+      .sales-orders-card .btn-group .btn:hover {
+        background-color: white;
+        color: #0d6efd;
+      }
+      .sales-orders-card .table {
+        margin-bottom: 0;
+      }
+      .sales-orders-card .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        padding: 12px 8px;
+      }
+      .sales-orders-card .table tbody td {
+        padding: 12px 8px;
+        vertical-align: middle;
+      }
+      .btn-group .btn.active {
+        background-color: white;
+        color: #0d6efd;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand">Company Dashboard</a>
+        <div class="d-flex">
+          <span class="navbar-text me-3">
+            <strong>Company:</strong> <span id="companyName"></span>
+          </span>
+          <span class="navbar-text me-3">
+            <strong>Zone:</strong> <span id="companyZone"></span>
+          </span>
+          <button class="btn btn-outline-light" onclick="logout()">
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="flowAlerts"
+      class="position-fixed top-0 end-0 p-3"
+      style="z-index: 1050; max-width: 300px"
+    ></div>
+
+    <div class="container-fluid dashboard-container">
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="stats-card">
+            <h5>Total Chemicals Manufactured</h5>
+            <h2 id="totalManufactured">0 KG</h2>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-card">
+            <h5>Current Stock</h5>
+            <h2 id="currentStock">0 KG / 0.00 L</h2>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-card">
+            <h5>Active Orders</h5>
+            <h2 id="activeOrders">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="list-group">
+            <button
+              class="list-group-item list-group-item-action active"
+              onclick="showSection('manufacturing')"
+            >
+              Manufacturing
+            </button>
+            <button
+              class="list-group-item list-group-item-action"
+              onclick="showSection('purchasing')"
+            >
+              Purchasing
+            </button>
+            <button
+              class="list-group-item list-group-item-action"
+              onclick="showSection('salesAndTransport')"
+            >
+              Sales & Transport
+            </button>
+            <button
+              class="list-group-item list-group-item-action"
+              onclick="showSection('track')"
+            >
+              Track Orders
+            </button>
+            <button
+              class="list-group-item list-group-item-action"
+              onclick="showSection('chemicalUsage')"
+            >
+              Chemical Usage
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <!-- Manufacturing Section -->
+          <div id="manufacturing" class="section-content">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">Manufacturing Entry</h5>
+              </div>
+              <div class="card-body">
+                <form id="manufacturingForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Chemical Type</label>
+                      <select
+                        class="form-select"
+                        name="chemicalType"
+                        id="chemicalType"
+                        required
+                      ></select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Quantity</label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="quantity"
+                          required
+                        />
+                        <select class="form-select" name="unit" required>
+                          <option value="KG">KG</option>
+                          <option value="L">L</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Manufacturing Date</label>
+                      <input
+                        type="datetime-local"
+                        class="form-control"
+                        name="manufacturingDate"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Expiry Date</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="expiryDate"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Add Manufacturing Entry
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                  <i class="fas fa-industry me-2"></i>
+                  Manufacturing History
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Batch ID</th>
+                        <th>Chemical Type</th>
+                        <th>Quantity</th>
+                        <th>Manufacturing Date</th>
+                        <th>Expiry Date</th>
+                      </tr>
+                    </thead>
+                    <tbody id="manufacturingHistory"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Transport Management Modal -->
+          <div
+            class="modal fade"
+            id="transportModal"
+            tabindex="-1"
+            aria-labelledby="transportModalLabel"
+            role="dialog"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="transportModalLabel">
+                    Transport Management
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form id="transportForm">
+                    <div class="mb-3">
+                      <label class="form-label">Order ID</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="modalOrderId"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label"
+                        >Vehicle Number
+                        <small class="text-muted"
+                          >(e.g., MH12AB1234)</small
+                        ></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="vehicleNumber"
+                        required
+                        pattern="^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$"
+                        title="Enter valid vehicle number (e.g., MH12AB1234)"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Driver Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="driverName"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Driver Contact</label>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        name="driverContact"
+                        required
+                        pattern="[0-9]{10}"
+                        title="Enter 10-digit mobile number"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Route Details</label>
+                      <textarea
+                        class="form-control"
+                        name="routeDetails"
+                        rows="3"
+                        required
+                        placeholder="Enter detailed route information"
+                      ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Start Time</label>
+                      <input
+                        type="datetime-local"
+                        class="form-control"
+                        name="startTime"
+                        required
+                      />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                      <i class="fas fa-truck me-2"></i>Initiate Transport
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Purchasing Section -->
+          <div id="purchasing" class="section-content" style="display: none">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="mb-0">New Purchase Order</h5>
+              </div>
+              <div class="card-body">
+                <form id="purchaseForm">
+                  <div class="mb-3">
+                    <label class="form-label">Select Company</label>
+                    <select
+                      class="form-select"
+                      name="sellerCompany"
+                      required
+                    ></select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Chemical Type</label>
+                    <select
+                      class="form-select"
+                      name="chemicalType"
+                      required
+                    ></select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="quantity"
+                        required
+                      />
+                      <select class="form-select" name="unit" required>
+                        <option value="KG">KG</option>
+                        <option value="L">L</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Purpose</label>
+                    <textarea
+                      class="form-control"
+                      name="purpose"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Delivery Address</label>
+                    <textarea
+                      class="form-control"
+                      name="deliveryAddress"
+                      required
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Place Order
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Purchase History -->
+            <div class="card">
+              <div
+                class="card-header d-flex justify-content-between align-items-center"
+              >
+                <h5 class="mb-0">Purchase History</h5>
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('all')"
+                  >
+                    All
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('pending')"
+                  >
+                    Pending
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('accepted')"
+                  >
+                    Accepted
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('in_transit')"
+                  >
+                    In Transit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('completed')"
+                  >
+                    Completed
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="filterPurchases('rejected')"
+                  >
+                    Rejected
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Chemical</th>
+                        <th>Quantity</th>
+                        <th>Purpose</th>
+                        <th>Delivery Address</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="purchaseHistory">
+                      <!-- Purchase history will be populated here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Combined Sales and Transport Section -->
+          <div
+            id="salesAndTransport"
+            class="section-content"
+            style="display: none"
+          >
+            <div class="row">
+              <!-- Sales Orders Section -->
+              <div class="col-md-12 mb-4">
+                <div class="card sales-orders-card">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <h5 class="mb-0">
+                      <i class="fas fa-shopping-cart me-2"></i>
+                      Orders & Sales
+                    </h5>
+                    <div class="d-flex align-items-center">
+                      <a
+                        href="scan-delivery.html"
+                        class="btn btn-light me-3"
+                        target="_blank"
+                      >
+                        <i class="fas fa-qrcode me-2"></i>
+                        Scan QR Code
+                      </a>
+                      <div class="btn-group" role="group">
+                        <button
+                          type="button"
+                          class="btn btn-outline-light active"
+                          onclick="filterOrders('all')"
+                        >
+                          <i class="fas fa-list me-1"></i> All Orders
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-light"
+                          onclick="filterOrders('pending')"
+                        >
+                          <i class="fas fa-clock me-1"></i> Pending
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-light"
+                          onclick="filterOrders('accepted')"
+                        >
+                          <i class="fas fa-check me-1"></i> Accepted
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Buyer</th>
+                            <th>Chemical</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                            <th>QR Code</th>
+                          </tr>
+                        </thead>
+                        <tbody id="receivedOrdersTableBody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transport History Section -->
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Transport History</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Transport ID</th>
+                            <th>Order ID</th>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="transportTableBody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track Dashboard -->
+          <div id="track" class="section-content" style="display: none">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">Track Shipments</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Transport ID</th>
+                        <th>Vehicle Number</th>
+                        <th>Driver Details</th>
+                        <th>Route Details</th>
+                        <th>Start Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="trackingData"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chemical Usage Section -->
+          <div id="chemicalUsage" class="section-content" style="display: none">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">Chemical Usage Tracking</h5>
+              </div>
+              <div class="card-body">
+                <div class="row mb-4">
+                  <div class="col-md-6">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <h6 class="card-title">Available Chemicals</h6>
+                        <div id="availableChemicals">Loading...</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">Log Chemical Usage</h6>
+                        <form id="usageForm">
+                          <div class="mb-3">
+                            <label class="form-label">Chemical Batch</label>
+                            <select
+                              class="form-select"
+                              id="chemicalBatch"
+                              required
+                            >
+                              <option value="">Select batch</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label class="form-label">Usage Amount</label>
+                            <div class="input-group">
+                              <input
+                                type="number"
+                                class="form-control"
+                                id="usageAmount"
+                                required
+                                min="0"
+                                step="0.01"
+                              />
+                              <span class="input-group-text" id="usageUnit"
+                                >KG</span
+                              >
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label class="form-label">Purpose</label>
+                            <textarea
+                              class="form-control"
+                              id="usagePurpose"
+                              required
+                              rows="2"
+                            ></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Log Usage
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="mb-0">Usage History</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Batch ID</th>
+                            <th>Chemical</th>
+                            <th>Amount Used</th>
+                            <th>Remaining</th>
+                            <th>Purpose</th>
+                          </tr>
+                        </thead>
+                        <tbody id="usageHistoryTable">
+                          <tr>
+                            <td colspan="6" class="text-center">
+                              No usage records found
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal" id="qrCodeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Order QR Code</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-3">
+              <strong>Order ID:</strong> <span id="qrOrderId"></span>
+            </p>
+            <div id="qrcode" class="mb-3"></div>
+            <p class="mb-3">
+              <strong>Security Token:</strong>
+              <span id="qrSecurityToken" class="text-danger"></span>
+            </p>
+            <p class="mb-2">
+              <small class="text-muted"
+                >Generated: <span id="qrTimestamp"></span
+              ></small>
+            </p>
+            <div class="mt-4">
+              <button class="btn btn-primary" onclick="downloadQRCode()">
+                <i class="fas fa-download"></i> Download QR Code
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="company-dashboard.js"></script>
+  </body>
+</html>

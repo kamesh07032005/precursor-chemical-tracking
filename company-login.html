@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NCB - Company Portal</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #1a237e;
+        --secondary-color: #0d47a1;
+        --accent-color: #2962ff;
+        --background-color: #f5f7fa;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--background-color);
+      }
+
+      .login-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+      }
+
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1.5rem;
+      }
+
+      .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn-primary {
+        background: var(--accent-color);
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+      }
+
+      .chemical-checkbox {
+        margin: 0.5rem 0;
+      }
+
+      .nav-tabs .nav-link {
+        color: var(--primary-color);
+        border: none;
+        padding: 1rem 2rem;
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--accent-color);
+        border-bottom: 3px solid var(--accent-color);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3><i class="fas fa-industry me-2"></i>NCB Company Portal</h3>
+          <p class="mb-0">Login or Register your company</p>
+        </div>
+        <div class="card-body">
+          <ul class="nav nav-tabs mb-4" id="loginTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="login-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#login"
+                type="button"
+              >
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="register-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#register"
+                type="button"
+              >
+                <i class="fas fa-user-plus me-2"></i>Register
+              </button>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="loginTabContent">
+            <!-- Login Form -->
+            <div class="tab-pane fade show active" id="login">
+              <form id="loginForm">
+                <div class="form-group mb-3">
+                  <label for="loginUrn">Chemical License Number (URN)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="loginUrn"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="loginPassword">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="loginPassword"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                  Login
+                </button>
+              </form>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="tab-pane fade" id="register">
+              <form id="registrationForm">
+                <h5 class="mb-3">Personal Information</h5>
+                <div class="mb-3">
+                  <label class="form-label">Name of Applicant</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="applicantName"
+                    required
+                  />
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">PAN Number</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="panNumber"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Aadhar Number</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="aadharNumber"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    required
+                  />
+                </div>
+
+                <h5 class="mb-3 mt-4">Company Information</h5>
+                <div class="mb-3">
+                  <label class="form-label">Company Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="companyName"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea
+                    class="form-control"
+                    id="address"
+                    rows="3"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="licenseNumber"
+                    >Chemical License Number (URN)</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="licenseNumber"
+                    required
+                  />
+                </div>
+
+                <h5 class="mb-3">Chemicals</h5>
+                <div class="chemical-checkbox">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="acetic"
+                    />
+                    <label class="form-check-label">Acetic anhydride</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="ephedrine"
+                    />
+                    <label class="form-check-label">Ephedrine</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="pseudoephedrine"
+                    />
+                    <label class="form-check-label">Pseudoephedrine</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="ergometrine"
+                    />
+                    <label class="form-check-label">Ergometrine</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="ergotamine"
+                    />
+                    <label class="form-check-label">Ergotamine</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="lysergic"
+                    />
+                    <label class="form-check-label">Lysergic acid</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="potassium"
+                    />
+                    <label class="form-check-label"
+                      >Potassium permanganate</label
+                    >
+                  </div>
+                </div>
+
+                <h5 class="mb-3 mt-4">Activities</h5>
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="manufacturing"
+                    />
+                    <label class="form-check-label">Manufacturing</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="distribution"
+                    />
+                    <label class="form-check-label">Distribution</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="purchasing"
+                    />
+                    <label class="form-check-label">Purchasing</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="selling"
+                    />
+                    <label class="form-check-label">Selling</label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Maximum Capacity (KG)</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxCapacity"
+                    required
+                  />
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="confirmPassword"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Zone</label>
+                  <select class="form-select" id="zone" required>
+                    <optgroup label="North Western Region (Amritsar)">
+                      <option value="Amritsar">Amritsar Zone</option>
+                      <option value="Chandigarh">Chandigarh Zone</option>
+                      <option value="Jammu">Jammu Zone</option>
+                      <option value="Srinagar">Srinagar Zone</option>
+                    </optgroup>
+                    <optgroup label="Northern Region (Delhi)">
+                      <option value="Delhi">Delhi Zone</option>
+                      <option value="Dehradun">Dehradun Zone</option>
+                      <option value="Gorakhpur">Gorakhpur Zone</option>
+                      <option value="Lucknow">Lucknow Zone</option>
+                    </optgroup>
+                    <optgroup label="Western Region (Ahmedabad)">
+                      <option value="Ahmedabad">Ahmedabad Zone</option>
+                      <option value="Bhopal">Bhopal Zone</option>
+                      <option value="Indore">Indore Zone</option>
+                      <option value="Jaipur">Jaipur Zone</option>
+                      <option value="Jodhpur">Jodhpur Zone</option>
+                    </optgroup>
+                    <optgroup label="South Western Region (Mumbai)">
+                      <option value="Bangalore">Bangalore Zone</option>
+                      <option value="Goa">Goa Zone</option>
+                      <option value="Mumbai">Mumbai Zone</option>
+                    </optgroup>
+                    <optgroup label="Southern Region (Chennai)">
+                      <option value="Chennai">Chennai Zone</option>
+                      <option value="Cochin">Cochin Zone</option>
+                      <option value="Hyderabad">Hyderabad Zone</option>
+                      <option value="Visakhapatnam">Visakhapatnam Zone</option>
+                    </optgroup>
+                    <optgroup label="Eastern Region (Kolkata)">
+                      <option value="Bhubaneswar">Bhubaneswar Zone</option>
+                      <option value="Kolkata">Kolkata Zone</option>
+                      <option value="Patna">Patna Zone</option>
+                      <option value="Ranchi">Ranchi Zone</option>
+                      <option value="Raipur">Raipur Zone</option>
+                    </optgroup>
+                    <optgroup label="North Eastern Region (Guwahati)">
+                      <option value="Agartala">Agartala Zone</option>
+                      <option value="Guwahati">Guwahati Zone</option>
+                      <option value="Imphal">Imphal Zone</option>
+                      <option value="Itanagar">Itanagar Zone</option>
+                      <option value="Siliguri">Siliguri Zone</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="company-login.js"></script>
+  </body>
+</html>

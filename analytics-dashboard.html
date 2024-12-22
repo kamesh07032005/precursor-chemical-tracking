@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCB Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #0d47a1;
+            --accent-color: #2962ff;
+            --background-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #34495e;
+            --success-color: #00c853;
+            --warning-color: #ffd600;
+            --danger-color: #ff1744;
+            --info-color: #00b0ff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .dashboard-container {
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            margin-bottom: 1.5rem;
+            border: none;
+            background: var(--card-bg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            border: none;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .stats-card h5 {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .live-feed {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .feed-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background-color: rgba(0,0,0,0.02);
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .feed-item:hover {
+            background-color: rgba(0,0,0,0.04);
+            transform: translateX(5px);
+        }
+
+        .alert-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: rgba(0,0,0,0.02);
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .btn {
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        /* Alert status colors */
+        .alert-status.emergency {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .alert-status.high {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .alert-status.medium {
+            color: var(--info-color);
+            font-weight: 600;
+        }
+
+        .alert-status.low {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .stats-card h2 {
+                font-size: 2rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .map-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line me-2"></i>NCB Analytics Dashboard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-home me-1"></i>Main Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-chart-bar me-1"></i>Analytics
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-light" onclick="location.href='index.html'">
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="row g-3">
+            <!-- Quick Stats -->
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5><i class="fas fa-building me-2"></i>Total Companies</h5>
+                            <h2 id="totalCompanies">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5><i class="fas fa-truck me-2"></i>Active Transports</h5>
+                            <h2 id="activeTransports">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i>Active Alerts</h5>
+                            <h2 id="activeAlerts">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5><i class="fas fa-clipboard-list me-2"></i>Total Orders</h5>
+                            <h2 id="totalOrders">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Chemical Distribution Chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie me-2"></i>Chemical Distribution by Zone
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="chemicalDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Trends -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line me-2"></i>Alert Trends
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="alertTrendsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Live Transport Map -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-map-marked-alt me-2"></i>Live Transport Tracking
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="map" class="map-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Feed -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-bell me-2"></i>Live Updates
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="liveFeed" class="live-feed"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Table -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-exclamation-circle me-2"></i>Active Alerts</span>
+                        <div>
+                            <span class="badge bg-danger me-2">
+                                <i class="fas fa-radiation-alt me-1"></i>Emergency: <span id="emergencyCount">0</span>
+                            </span>
+                            <span class="badge bg-warning text-dark me-2">
+                                <i class="fas fa-exclamation-triangle me-1"></i>High: <span id="highCount">0</span>
+                            </span>
+                            <span class="badge bg-info me-2">
+                                <i class="fas fa-exclamation me-1"></i>Medium: <span id="mediumCount">0</span>
+                            </span>
+                            <span class="badge bg-success">
+                                <i class="fas fa-info-circle me-1"></i>Low: <span id="lowCount">0</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Zone</th>
+                                        <th>From Company</th>
+                                        <th>To Company</th>
+                                        <th>Vehicle Number</th>
+                                        <th>Alert Type</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alertsTableBody">
+                                    <!-- Alerts will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script type="module">
+        import { generateAnalytics, initializeGPSTracking, updateTransportLocation } from './js/utils.js';
+
+        let map;
+        let markers = {};
+        const alertCounts = {
+            EMERGENCY: 0,
+            HIGH: 0,
+            MEDIUM: 0,
+            LOW: 0
+        };
+
+        // Initialize dashboard
+        async function initDashboard() {
+            const analytics = await generateAnalytics();
+            if (!analytics) return;
+
+            updateQuickStats(analytics);
+            initializeCharts(analytics);
+            initializeMap();
+            startLiveFeed();
+            startAlertMonitoring();
+        }
+
+        function updateQuickStats(analytics) {
+            document.getElementById('totalCompanies').textContent = 
+                Object.values(analytics.companyStats.zoneWise).reduce((a, b) => a + b, 0);
+            document.getElementById('activeTransports').textContent = 
+                analytics.transportStats.byStatus['in-transit'] || 0;
+            document.getElementById('activeAlerts').textContent = 
+                Object.values(alertCounts).reduce((a, b) => a + b, 0);
+            document.getElementById('totalOrders').textContent = 
+                analytics.orderStats.total || 0;
+
+            // Update alert counts
+            document.getElementById('emergencyCount').textContent = alertCounts.EMERGENCY;
+            document.getElementById('highCount').textContent = alertCounts.HIGH;
+            document.getElementById('mediumCount').textContent = alertCounts.MEDIUM;
+            document.getElementById('lowCount').textContent = alertCounts.LOW;
+        }
+
+        function updateAlertsTable(alerts) {
+            const tbody = document.getElementById('alertsTableBody');
+            tbody.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const tr = document.createElement('tr');
+                tr.className = getAlertRowClass(alert.alertType);
+                tr.innerHTML = `
+                    <td>${alert.zone}</td>
+                    <td>${alert.fromCompany}</td>
+                    <td>${alert.toCompany}</td>
+                    <td>${alert.vehicleNumber}</td>
+                    <td>
+                        <span class="badge ${getAlertBadgeClass(alert.alertType)}">
+                            ${alert.alertType}
+                        </span>
+                    </td>
+                    <td>${alert.status}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewDetails('${alert.id}')">
+                            View
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="resolveAlert('${alert.id}')">
+                            Resolve
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function getAlertRowClass(alertType) {
+            switch(alertType) {
+                case 'EMERGENCY': return 'table-danger';
+                case 'HIGH': return 'table-warning';
+                case 'MEDIUM': return 'table-info';
+                case 'LOW': return 'table-success';
+                default: return '';
+            }
+        }
+
+        function getAlertBadgeClass(alertType) {
+            switch(alertType) {
+                case 'EMERGENCY': return 'bg-danger';
+                case 'HIGH': return 'bg-warning';
+                case 'MEDIUM': return 'bg-info';
+                case 'LOW': return 'bg-success';
+                default: return 'bg-secondary';
+            }
+        }
+
+        async function startAlertMonitoring() {
+            // Poll for alerts every 5 seconds
+            setInterval(async () => {
+                try {
+                    const response = await fetch('/api/alerts');
+                    const alerts = await response.json();
+                    
+                    // Reset counts
+                    Object.keys(alertCounts).forEach(key => alertCounts[key] = 0);
+                    
+                    // Update counts
+                    alerts.forEach(alert => {
+                        if (alert.status === 'ACTIVE') {
+                            alertCounts[alert.alertType]++;
+                        }
+                    });
+
+                    updateAlertsTable(alerts);
+                    updateQuickStats({ alertStats: alertCounts });
+                } catch (error) {
+                    console.error('Error fetching alerts:', error);
+                }
+            }, 5000);
+        }
+
+        window.viewDetails = function(alertId) {
+            // Implement alert details view
+            console.log('Viewing details for alert:', alertId);
+        };
+
+        window.resolveAlert = async function(alertId) {
+            try {
+                const response = await fetch(`/api/alerts/${alertId}/resolve`, {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    // Refresh alerts
+                    const alertsResponse = await fetch('/api/alerts');
+                    const alerts = await alertsResponse.json();
+                    updateAlertsTable(alerts);
+                }
+            } catch (error) {
+                console.error('Error resolving alert:', error);
+            }
+        };
+
+        function initializeCharts(analytics) {
+            // Chemical Distribution Chart
+            const chemCtx = document.getElementById('chemicalDistributionChart').getContext('2d');
+            new Chart(chemCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(analytics.companyStats.zoneWise),
+                    datasets: [{
+                        label: 'Companies per Zone',
+                        data: Object.values(analytics.companyStats.zoneWise),
+                        backgroundColor: ['#FF9933', '#FFFFFF', '#138808', '#000080']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Alert Trends Chart
+            const alertCtx = document.getElementById('alertTrendsChart').getContext('2d');
+            new Chart(alertCtx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(analytics.alertStats.byZone),
+                    datasets: [{
+                        label: 'Alerts by Zone',
+                        data: Object.values(analytics.alertStats.byZone),
+                        borderColor: '#FF9933',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function initializeMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: 78.9629 },
+                zoom: 5
+            });
+
+            // TODO: Add markers for active transports
+        }
+
+        function startLiveFeed() {
+            const liveFeed = document.getElementById('liveFeed');
+            
+            // Simulated live feed updates
+            setInterval(() => {
+                const events = [
+                    'New transport registered',
+                    'Alert: Route deviation detected',
+                    'Company updated inventory',
+                    'New order placed',
+                    'Transport completed successfully'
+                ];
+
+                const event = events[Math.floor(Math.random() * events.length)];
+                const timestamp = new Date().toLocaleTimeString();
+
+                const feedItem = document.createElement('div');
+                feedItem.className = 'feed-item';
+                feedItem.innerHTML = `
+                    <small class="text-muted">${timestamp}</small>
+                    <div>${event}</div>
+                `;
+
+                liveFeed.insertBefore(feedItem, liveFeed.firstChild);
+
+                if (liveFeed.children.length > 50) {
+                    liveFeed.removeChild(liveFeed.lastChild);
+                }
+            }, 5000);
+        }
+
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>

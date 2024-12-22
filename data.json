@@ -1,0 +1,222 @@
+{
+  "ncbAdmin": {
+    "username": "admin@ncb.gov.in",
+    "password": "NCB@2024",
+    "role": "admin"
+  },
+  "companies": [
+    {
+      "companyName": "A",
+      "licenseNumber": "URN123",
+      "email": "a@gmail.com",
+      "password": "123",
+      "address": "Gentry Emerson Inc\nAspernatur dolor inc",
+      "chemicals": [
+        "Acetic anhydride",
+        "Sulphuric acid"
+      ],
+      "activities": [
+        "Manufacturing",
+        "Purchasing",
+        "Selling"
+      ],
+      "maxCapacity": 1000,
+      "zone": "North Zone",
+      "createdAt": "2024-11-30T09:33:30.942Z",
+      "id": "1"
+    },
+    {
+      "companyName": "B",
+      "licenseNumber": "URN456",
+      "email": "b@gmail.com",
+      "password": "456",
+      "address": "hello",
+      "chemicals": [
+        "Acetic anhydride",
+        "Sulphuric acid"
+      ],
+      "activities": [
+        "Manufacturing",
+        "Exporting",
+        "Purchasing",
+        "Selling"
+      ],
+      "maxCapacity": 2000,
+      "zone": "North Zone",
+      "createdAt": "2024-11-30T09:40:32.821Z",
+      "id": "2"
+    },
+    {
+      "companyName": "C",
+      "licenseNumber": "URN789",
+      "email": "admin@ncb.gov.in",
+      "password": "789",
+      "address": "good",
+      "chemicals": [
+        "Sulphuric acid"
+      ],
+      "activities": [
+        "Manufacturing",
+        "Exporting",
+        "Purchasing",
+        "Selling"
+      ],
+      "maxCapacity": 1500,
+      "zone": "South Zone",
+      "createdAt": "2024-11-30T09:42:00.066Z",
+      "id": "3"
+    }
+  ],
+  "zonalOfficers": [
+    {
+      "zone": "North Zone",
+      "officerId": "123",
+      "officerName": "Kamesh",
+      "email": "o@gmail.com",
+      "password": "098",
+      "createdAt": "2024-11-30T10:04:24.327Z",
+      "id": "1"
+    },
+    {
+      "id": "3ee2",
+      "zone": "North Zone",
+      "officerId": "456",
+      "officerName": "vijay",
+      "email": "officer@gmail.com",
+      "password": "789",
+      "createdAt": "2024-12-15T13:17:22.667Z"
+    }
+  ],
+  "manufacturing": [
+    {
+      "companyId": "1",
+      "chemicalType": "Acetic anhydride",
+      "quantity": 100,
+      "unit": "KG",
+      "manufacturingDate": "2024-12-15T02:09:00.000Z",
+      "expiryDate": "2024-12-31",
+      "batchId": "BATCH-m4on4zeef3",
+      "sold": false,
+      "id": "d773"
+    }
+  ],
+  "orders": [
+    {
+      "id": "0864",
+      "buyerId": "1",
+      "chemicalType": "Acetic anhydride",
+      "quantity": 99,
+      "unit": "KG",
+      "purpose": "ff",
+      "deliveryAddress": "ink",
+      "status": "in_transit",
+      "orderId": "m4y92k1tubcfkoccrs",
+      "createdAt": "2024-12-21T14:03:45.281Z",
+      "updatedAt": "2024-12-21T14:03:57.857Z",
+      "securityToken": "6442C8A4327141544B779EF90DFDE57B",
+      "tokenTimestamp": "2024-12-21T14:03:57.857Z",
+      "transportInitiated": "2024-12-21T14:04:02.875Z",
+      "lastUpdated": "2024-12-21T14:04:02.875Z"
+    },
+    {
+      "id": "961a",
+      "buyerId": "1",
+      "chemicalType": "Acetic anhydride",
+      "quantity": 100,
+      "unit": "KG",
+      "purpose": "medcine",
+      "deliveryAddress": "delhi",
+      "status": "in_transit",
+      "orderId": "m4y97s87e81z1keobbp",
+      "createdAt": "2024-12-21T14:07:49.159Z",
+      "updatedAt": "2024-12-21T14:08:47.761Z",
+      "securityToken": "374F670DD077EDDDCA0CE90E4340B719",
+      "tokenTimestamp": "2024-12-21T14:08:47.761Z",
+      "transportInitiated": "2024-12-21T14:13:41.978Z",
+      "lastUpdated": "2024-12-21T14:13:41.978Z"
+    },
+    {
+      "id": "c435",
+      "buyerId": "1",
+      "chemicalType": "Acetic anhydride",
+      "quantity": 100,
+      "unit": "KG",
+      "purpose": "joined",
+      "deliveryAddress": "Gentry Emerson Inc\nAspernatur dolor inc",
+      "status": "in_transit",
+      "orderId": "m4yh3qt70buvpll7so3",
+      "createdAt": "2024-12-21T17:48:37.627Z",
+      "updatedAt": "2024-12-21T17:48:46.766Z",
+      "securityToken": "FBD8DB861812CD7D3445C2B5CC503A9D",
+      "tokenTimestamp": "2024-12-21T17:48:46.766Z",
+      "transportInitiated": "2024-12-22T06:31:06.482Z",
+      "lastUpdated": "2024-12-22T06:31:06.482Z"
+    },
+    {
+      "buyerId": "1",
+      "chemicalType": "Acetic anhydride",
+      "quantity": 100,
+      "unit": "KG",
+      "purpose": "cv",
+      "deliveryAddress": "df",
+      "status": "in_transit",
+      "orderId": "m4z8mw8ufjnbdws083",
+      "createdAt": "2024-12-22T06:39:20.766Z",
+      "id": "DNtlcMX",
+      "updatedAt": "2024-12-22T06:39:28.148Z",
+      "securityToken": "E21FBEAC444B27BA7F45BA8B29751B7A",
+      "tokenTimestamp": "2024-12-22T06:39:28.148Z",
+      "transportId": "m4z90ry0f1n2m2hohb",
+      "transportInitiated": "2024-12-22T06:50:08.473Z",
+      "lastUpdated": "2024-12-22T06:50:08.473Z"
+    }
+  ],
+  "transport": [
+    {
+      "orderId": "DNtlcMX",
+      "vehicleNumber": "MH12AB1234",
+      "driverName": "kamesh",
+      "driverContact": "1234567890",
+      "routeDetails": "TRICHY",
+      "status": "in_transit",
+      "startTime": "2024-12-22T12:20",
+      "transportId": "m4z90ry0f1n2m2hohb",
+      "id": 1
+    }
+  ],
+  "chemicalUsage": [
+    {
+      "companyId": "1",
+      "batchId": "BATCH-m4on4zeef3",
+      "amount": 50,
+      "unit": "KG",
+      "purpose": "production",
+      "timestamp": "2024-12-16T10:00:00.000Z",
+      "id": "145a"
+    }
+  ],
+  "alerts": [
+    {
+      "transportId": "t1",
+      "type": "ROUTE_DEVIATION",
+      "zone": "North Zone",
+      "timestamp": "2024-12-16T12:00:00.000Z",
+      "status": "ACTIVE",
+      "details": {
+        "vehicleNumber": "MH12AB1234",
+        "currentLocation": "Mumbai-Pune Highway",
+        "lastUpdate": "2024-12-16T12:00:00.000Z"
+      },
+      "id": "018b"
+    }
+  ],
+  "reports": [
+    {
+      "reportId": "r1",
+      "title": "Monthly Report",
+      "content": "This is a sample monthly report.",
+      "createdAt": "2024-12-01T00:00:00.000Z",
+      "id": "a0d8"
+    }
+  ]
+}
